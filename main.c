@@ -39,6 +39,36 @@ int main(void)
 	setFuzzy(fuzzy,Inputs,Outputs);
 	printf("%f",fuzzy->Output->Outputx->Membership->d1);
 
+	float x=2;
+	if(fuzzy->Input->Inputx->Membership->d1<x && fuzzy->Input->Inputx->Membership->d4>x)
+	{
+		fuzzy->Input->Inputx->Membership->degree=0;
+	}
+	else if(fuzzy->Input->Inputx->Membership->d2>=x && fuzzy->Input->Inputx->Membership->d3<=x)
+	{
+		fuzzy->Input->Inputx->Membership->degree=1;
+	}
+	else
+	{
+		float down=fuzzy->Input->Inputx->Membership->d4-fuzzy->Input->Inputx->Membership->d1;
+		float up=fuzzy->Input->Inputx->Membership->d3-fuzzy->Input->Inputx->Membership->d2;
+		float h=1;
+		float area=(up+down)*h/2;
+		
+		if(x>fuzzy->Input->Inputx->Membership->d3)
+		{
+			float x1=x-fuzzy->Input->Inputx->Membership->d2;
+			float x2=fuzzy->Input->Inputx->Membership->d3-x;
+			float sh=1-(x1/(x1+x2));
+		}
+		else
+		{
+			float x1=x-fuzzy->Input->Inputx->Membership->d1;
+			float x2=fuzzy->Input->Inputx->Membership->d2-x;
+			float sh=1-(x1/(x1+x2));
+		}
+		
+	}
 	
 	return 0;
 }
