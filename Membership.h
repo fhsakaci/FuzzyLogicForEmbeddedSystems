@@ -8,7 +8,7 @@ struct MembershipPoint
 	float d3;
 	float d4;
 	struct MembershipPoint *next;
-	struct MembershipPoint *back;
+	float degree=0;
 };
 MembershipPoint* setMembershipPoint(float,float,float,float);
 

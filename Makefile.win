@@ -4,8 +4,8 @@
 CPP      = g++.exe
 CC       = gcc.exe
 WINDRES  = windres.exe
-OBJ      = main.o Fuzzy.o InputMembership.o Membership.o OutputMembership.o
-LINKOBJ  = main.o Fuzzy.o InputMembership.o Membership.o OutputMembership.o
+OBJ      = main.o Fuzzy.o InputMembership.o Membership.o OutputMembership.o Rule.o
+LINKOBJ  = main.o Fuzzy.o InputMembership.o Membership.o OutputMembership.o Rule.o
 LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib" -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc
 INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
 CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
@@ -38,3 +38,6 @@ Membership.o: Membership.c
 
 OutputMembership.o: OutputMembership.c
 	$(CPP) -c OutputMembership.c -o OutputMembership.o $(CXXFLAGS)
+
+Rule.o: Rule.c
+	$(CPP) -c Rule.c -o Rule.o $(CXXFLAGS)

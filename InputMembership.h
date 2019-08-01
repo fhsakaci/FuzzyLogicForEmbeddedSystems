@@ -4,6 +4,7 @@
 struct InputMembership
 {
 	MembershipPoint *Membership;
+	float newArea;
 	struct InputMembership *next;
 };
 void setInputMembership(InputMembership*,MembershipPoint*);

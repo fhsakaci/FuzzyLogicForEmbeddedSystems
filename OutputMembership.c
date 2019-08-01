@@ -8,7 +8,6 @@ OutputMembership* OutputMembershipInit(OutputMembership *Output, int id)
 	return Output;
 }
 
-
 void setOutputMembership(OutputMembership *Output,MembershipPoint *Membership)
 {
 	OutputMembership *current = Output;
