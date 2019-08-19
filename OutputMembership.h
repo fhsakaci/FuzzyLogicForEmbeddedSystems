@@ -4,7 +4,7 @@
 struct OutputMembership
 {
 	MembershipPoint *Membership;
-	int Use=0;
+	int id;
 	struct OutputMembership *next;
 };
 void setOutputMembership(OutputMembership*,MembershipPoint*);

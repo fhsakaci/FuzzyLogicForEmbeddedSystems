@@ -174,9 +174,7 @@ void fuzzify(Fuzzy *fuzzy, float inputArray[])
 	//				Membs->Membership->degree=degree;
 	//			}
 	
-	
-				printf("%f\n",inputArray[i]);
-				Membs=Membs->next;
+					Membs=Membs->next;
 			}
 			Inputs=Inputs->next;
 			i++;
@@ -240,10 +238,6 @@ float calculateFuzzyMode(FuzzyRule *Rules)
 		{
 			result=Rules->Rule->Membership1->degree;
 		}
-		
-		if(Rules->outputMembership->degree <= 1 && Rules->outputMembership->degree < result)
-			result=Rules->outputMembership->degree;
-		
 	break;
 	case Or:
 			
@@ -255,9 +249,6 @@ float calculateFuzzyMode(FuzzyRule *Rules)
 		{
 			result=Rules->Rule->Membership2->degree;
 		}	
-		
-		if(Rules->outputMembership->degree <= 1 && Rules->outputMembership->degree > result)
-				result=Rules->outputMembership->degree;
 				
 		break;
 	case Single:
@@ -269,19 +260,21 @@ float calculateFuzzyMode(FuzzyRule *Rules)
 
 
 
-float calculateOutput(FuzzyRule *Rules)
+float calculateOutput(FuzzyRule *Rules,	FuzzyOutput *Outputs)
 {
 	FuzzyRule *current=Rules;
 	float* myPoints;
 	float* myPointsDegree;
+	int* ID;
 	float sum,div;
 	int counter=0;
 	myPoints =(float*) malloc(sizeof(float) *128);
 	myPointsDegree=(float*) malloc(sizeof(float) * 128);
+	ID=(int*) malloc(sizeof(int) * 128);
+	MembershipPoint *currentMembership = current->outputMembership;
+	OutputMembership *Output=Outputs->Outputx;
 	while(current!=NULL)
 	{
-		
-		MembershipPoint *currentMembership = current->outputMembership;
 		if(currentMembership->degree==0)
 		{
 			myPoints[6*counter+0] = currentMembership->d1;
@@ -300,7 +293,6 @@ float calculateOutput(FuzzyRule *Rules)
 		}
 		else
 		{
-			
 			myPoints[6*counter+0] = currentMembership->d1;
 			myPoints[6*counter+1] = (currentMembership->d1+(currentMembership->d2-(currentMembership->d2-currentMembership->d1)*(1-currentMembership->degree)))/2;
 			myPoints[6*counter+2] = currentMembership->d2-(currentMembership->d2-currentMembership->d1)*(1-currentMembership->degree);
@@ -315,34 +307,49 @@ float calculateOutput(FuzzyRule *Rules)
 			myPointsDegree[6*counter+4] = currentMembership->degree/2;
 			myPointsDegree[6*counter+5] = 0;
 		}
+		
+		ID[6*counter+0] = current->Output->id;
+		ID[6*counter+1] = current->Output->id;
+		ID[6*counter+2] = current->Output->id;
+		ID[6*counter+3] = current->Output->id;
+		ID[6*counter+4] = current->Output->id;
+		ID[6*counter+5] = current->Output->id;
+		printf("%f\n", currentMembership->d3);
 		current=current->next;
 		counter++;
 	}
-//		for(int i=0;i<4*counter;i++)
-//		{
-//			for(int j=0;j<4*counter;j++)
-//			{
-//				if(myPoints[i]>=myPoints[j] && myPoints[i+1]<=myPoints[j])
-//				{
-////					if(myPointsDegree[i]>myPointsDegree[j])
-////					{
-////						myPointsDegree[j]=myPointsDegree[i];
-////					}
-////					else
-////					{
-////						myPointsDegree[i]=myPointsDegree[j];
-////					}
-//				}
-//			}
-//		}
+	
+	int limit=0;
+	float *resultArray;
+	float *divArray;
+	float *res;
+	res=(float*) malloc(sizeof(float) *128);
+	resultArray=(float*) malloc(sizeof(float) *128);
+	divArray=(float*) malloc(sizeof(float) *128);
+	while(Output==NULL)
+	{
+		resultArray[limit]=0;
+		divArray[limit]=0;
+		limit++;
+		Output=Output->next;
+	}
+	
 		sum=0;
 		div=0;
 		for(int i=0;i<6*counter;i++)
 		{
-			sum+=myPoints[i]*myPointsDegree[i];
-			div+=myPointsDegree[i];		
-//			printf("%f %f\n",myPoints[i],myPointsDegree[i],sum/div);	
+			for(int j=1;j<=ID[limit]+1;j++)
+			{
+				if(j==ID[i])
+				{
+					resultArray[j]+=myPoints[i]*myPointsDegree[i];
+					divArray[j]+=myPointsDegree[i];
+					res[j]=resultArray[j]/divArray[j];
+					printf("%d - %f\n",j,res[j]);
+				}
+			}
 		}
+		
 		if(div==0)
 			return sum;
 		else
@@ -367,7 +374,8 @@ float defuzzify(Fuzzy* fuzzy)
 		Rules=Rules->next;
 	}
 	
-	result = calculateOutput(RulesForOutput);
+	result = calculateOutput(RulesForOutput,Outputs);
+	printf("%f",RulesForOutput->outputMembership->degree);
 	return result;
 }
 
