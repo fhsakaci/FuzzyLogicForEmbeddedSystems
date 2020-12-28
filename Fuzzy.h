@@ -36,6 +36,7 @@ struct FuzzyRule
 	MembershipPoint	 *outputMembership;
 	struct FuzzyRule *next;
 	uint8_t counter=0;
+	float result;
 };
 FuzzyRule* FuzzyRuleInit(FuzzyRule*);
 void setFuzzyRule(FuzzyRule*,FuzzyInputRule*,OutputMembership*,MembershipPoint*);

@@ -5,6 +5,7 @@ OutputMembership* OutputMembershipInit(OutputMembership *Output, int id)
 	Output=(struct OutputMembership *) malloc (sizeof (struct OutputMembership));
 	Output->next=NULL;
 	Output->Membership=NULL;
+	Output->id=id;
 	return Output;
 }
 
